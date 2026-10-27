@@ -1,0 +1,42 @@
+/* Tema oscuro de Esports Arena sobre Bootstrap 5.3 (data-bs-theme="dark") */
+:root,
+[data-bs-theme='dark'] {
+  --bs-body-bg: #120e1e;
+  --bs-body-color: #f1ecff;
+  --bs-border-color: rgba(145, 70, 255, 0.3);
+  --color-tarjeta: #1e1735;
+  --color-primario: #9146ff;
+  --color-acento: #00f5d4;
+}
+
+.principal { min-height: 80vh; }
+
+.navbar-esports { background-color: var(--color-tarjeta); border-bottom-width: 2px !important; }
+.navbar-esports .logo { color: var(--color-acento); font-weight: 700; }
+.navbar-esports .nav-link { color: var(--bs-body-color); border-radius: 4px; margin: 0 0.25rem; }
+.navbar-esports .nav-link:hover,
+.navbar-esports .nav-link.active { background-color: var(--color-primario); color: #fff; }
+
+.btn-esports {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--color-primario);
+  --bs-btn-border-color: var(--color-primario);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #a566ff;
+  --bs-btn-hover-border-color: #a566ff;
+  --bs-btn-active-bg: #7d38e0;
+  --bs-btn-active-border-color: #7d38e0;
+  font-weight: 700;
+}
+
+.card-esports { background-color: var(--color-tarjeta); border: 1px solid rgba(145, 70, 255, 0.2); }
+.tarjeta-imagenes img { width: 50%; height: 120px; object-fit: cover; border-radius: 4px; }
+.detalle-img { width: 100%; max-height: 250px; object-fit: cover; }
+.texto-acento { color: var(--color-acento); font-weight: 700; }
+.badge-activo { background-color: var(--color-acento); color: #120e1e; }
+.mensaje-vacio { background: rgba(255, 255, 255, 0.03); }
+.filtros-torneos { background: rgba(255, 255, 255, 0.03); }
+.hero { background: linear-gradient(135deg, var(--color-tarjeta), rgba(145, 70, 255, 0.35)); }
+.perfil-avatar { font-size: 2.5rem; width: 64px; height: 64px; display: grid; place-items: center; border-radius: 50%; background: rgba(145, 70, 255, 0.25); }
+.footer-esports { background-color: var(--color-tarjeta); border-top: 1px solid rgba(145, 70, 255, 0.2); }
+.tabla-ranking th { background-color: var(--color-primario) !important; color: #fff; }
