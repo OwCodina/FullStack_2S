@@ -1,78 +1,44 @@
-# React + TypeScript + Vite
+# Esports Arena – Parte 2 (React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Migración de la plataforma de torneos (Parte 1, HTML/CSS/JS) a **React + Bootstrap**, con pruebas unitarias en **Jasmine + Karma**.
 
-Currently, two official plugins are available:
+## Requisitos
+- Node.js 18+ y Google Chrome instalado (Karma lo usa en modo headless; si no lo detecta, define `CHROME_BIN`).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+## Comandos
+```bash
+npm install
+npm run dev            # servidor de desarrollo (Vite)
+npm run build          # build de producción
+npm test               # pruebas Jasmine/Karma (una pasada)
+npm run test:watch     # pruebas en modo observación
+npm run test:coverage  # pruebas + reporte de cobertura en /coverage
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+## Estructura
 ```
+src/
+├── data/datos.js              # Datos semilla (migrado de js/datos.js)
+├── services/db.js             # BD simulada: CRUD + persistencia en localStorage
+├── validators/validaciones.js # Validaciones puras (migrado de js/validaciones.js)
+├── utils/filtrosTorneos.js    # Filtro combinado del catálogo
+├── context/RolContext.jsx     # Rol activo (Visitante / Jugador / Administrador)
+├── components/                # Componentes reutilizables (+ *.spec.jsx)
+└── pages/                     # Vistas enrutadas con react-router
+```
+
+## Migración Parte 1 → React
+| Parte 1 (HTML/JS) | React |
+|---|---|
+| `index.html`, `torneos.html`, `detalle-torneo.html`, `inscripcion.html`, `equipo.html`, `perfil.html` | `pages/Inicio`, `Torneos`, `DetalleTorneo`, `Inscripcion`, `CrearEquipo`, `Perfil` |
+| Header/footer repetidos en cada HTML | `Header`, `Footer`, `Layout` (una sola vez) |
+| `renderizarDestacados / renderizarTorneosCompleto` (innerHTML) | `ListaTorneos` + `TarjetaTorneo` (props) |
+| Filtros con `addEventListener` | `FiltrosTorneos` (componente controlado) + `filtrarTorneos` |
+| `?id=X` con `URLSearchParams` | Ruta `/torneos/:id` con `useParams` |
+| `DATOS_SIMULADOS.rolActual` global | `RolContext` (estado compartido) |
+| `validaciones.js` con `getElementById` | `FormularioInscripcion` / `FormularioEquipo` con estado + `validaciones.js` puras |
+| `alert()` | Alertas Bootstrap |
+| CSS Grid propio | Bootstrap (`container`, `row`, `col-*`, navbar colapsable) |
+
+## Vistas nuevas
+- `/admin`: panel con CRUD de torneos (solo rol Administrador).
